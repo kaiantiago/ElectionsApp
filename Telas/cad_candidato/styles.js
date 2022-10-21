@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     },
     nome: {
         marginTop: 13,
-        marginRight: 60
+        marginRight: 80
     },
     listaProdutos: {
         width: '100%',
@@ -137,6 +137,10 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         borderRadius: 10,
     },
+    dropState: {
+        width: 80,
+        marginLeft: 104
+    }
 })
 
 export default styles;
