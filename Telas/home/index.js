@@ -7,7 +7,8 @@ export default function Home({ navigation }) {
         <View style={styles.container}>
             <Text style={styles.titulo}>Eleições App</Text>
             <View style={styles.areaMenu}>
-                <View style={styles.areaLogo}>
+                <View>
+                    <Image style={styles.areaLogo} source={require('../../Img/urna-eletro.png')}></Image>
                 </View>
 
                 <TouchableOpacity style={styles.button} onPress={

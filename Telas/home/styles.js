@@ -10,11 +10,11 @@ const styles = StyleSheet.create({
     titulo: {
         fontSize: 30,
         fontWeight: 'bold',
-        marginBottom: 20
+        marginBottom: 10
     },
     areaLogo: {
         width:200,
-        height: 125,
+        height: 145,
         alignSelf: 'center'
     },
     areaMenu: {
