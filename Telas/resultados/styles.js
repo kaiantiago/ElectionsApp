@@ -7,11 +7,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: '#ffffff'
     },
-    titulo: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        marginBottom: 20
-    },
     areaLogo: {
         width:200,
         height: 200,
@@ -35,7 +30,36 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#ffffff',
         fontWeight: 'bold'
-    }
+    },
+    titulo: {
+        fontSize: 23,
+        fontWeight: 'bold',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 118,
+        marginLeft: 20
+
+    },
+    areaBtnVoltar: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        marginBottom: 50
+    },
+    btnVoltar: {
+        width: '12%',
+        height: 30,
+        borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#ff9500',
+        marginRight: 50,
+    },
+    textBtnVoltar: {
+        fontSize: 14,
+        color: '#ffffff',
+        fontWeight: 'bold',
+    },
 })
 
 export default styles;
