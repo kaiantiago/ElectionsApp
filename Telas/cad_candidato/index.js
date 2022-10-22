@@ -1,51 +1,57 @@
-import { react } from 'react';
 import styles from './styles';
 import {
     Alert, Text, TextInput, TouchableOpacity,
     View, Keyboard, ScrollView, Image
 } from 'react-native';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 export default function Cad_Candidato({ navigation }) {
 
 
-    
+
     const [id, setId] = useState(undefined);
     const [descricao, setDescricao] = useState("");
     const [precoUn, setPrecoUn] = useState("");
     const [idCat, setIdCat] = useState("");
     const [produtos, setProdutos] = useState([]);
-    const [open, setOpen] = useState(false);
-    const [value, setValue] = useState(null);
-    const [items, setItems] = useState([
-        {label: 'AC', value: 'AC'},
-        {label: 'AL', value: 'AL'},
-        {label: 'AM', value: 'AM'},
-        {label: 'AP', value: 'AP'},
-        {label: 'BA', value: 'BA'},
-        {label: 'CE', value: 'CE'},
-        {label: 'DF', value: 'DF'},
-        {label: 'ES', value: 'ES'},
-        {label: 'GO', value: 'GO'},
-        {label: 'MA', value: 'MA'},
-        {label: 'MG', value: 'MG'},
-        {label: 'MS', value: 'MS'},
-        {label: 'MT', value: 'MT'},
-        {label: 'PA', value: 'PA'},
-        {label: 'PB', value: 'PB'},
-        {label: 'PE', value: 'PE'},
-        {label: 'PI', value: 'PI'},
-        {label: 'PR', value: 'PR'},
-        {label: 'RJ', value: 'RJ'},
-        {label: 'RN', value: 'RN'},
-        {label: 'RO', value: 'RO'},
-        {label: 'RR', value: 'RR'},
-        {label: 'RS', value: 'RS'},
-        {label: 'SC', value: 'SC'},
-        {label: 'SE', value: 'SE'},
-        {label: 'SP', value: 'SP'},
-        {label: 'TO', value: 'TO'}
+    const [openC, setOpenC] = useState(false);
+    const [valueC, setValueC] = useState(null);
+    const [openE, setOpenE] = useState(false);
+    const [valueE, setValueE] = useState(null);
+    const [estados, setEstados] = useState([
+        { label: 'AC', value: 'AC' },
+        { label: 'AL', value: 'AL' },
+        { label: 'AM', value: 'AM' },
+        { label: 'AP', value: 'AP' },
+        { label: 'BA', value: 'BA' },
+        { label: 'CE', value: 'CE' },
+        { label: 'DF', value: 'DF' },
+        { label: 'ES', value: 'ES' },
+        { label: 'GO', value: 'GO' },
+        { label: 'MA', value: 'MA' },
+        { label: 'MG', value: 'MG' },
+        { label: 'MS', value: 'MS' },
+        { label: 'MT', value: 'MT' },
+        { label: 'PA', value: 'PA' },
+        { label: 'PB', value: 'PB' },
+        { label: 'PE', value: 'PE' },
+        { label: 'PI', value: 'PI' },
+        { label: 'PR', value: 'PR' },
+        { label: 'RJ', value: 'RJ' },
+        { label: 'RN', value: 'RN' },
+        { label: 'RO', value: 'RO' },
+        { label: 'RR', value: 'RR' },
+        { label: 'RS', value: 'RS' },
+        { label: 'SC', value: 'SC' },
+        { label: 'SE', value: 'SE' },
+        { label: 'SP', value: 'SP' },
+        { label: 'TO', value: 'TO' }
+    ]);
+    const [cargos, setCargos] = useState([
+        { label: 'Governador', value: 'Governador' },
+        { label: 'Senanador', value: 'Senanador' },
+        { label: 'Presidente', value: 'Presidente' },
     ]);
 
     let tabelasCriadas = false;
@@ -57,6 +63,14 @@ export default function Cad_Candidato({ navigation }) {
     });
 
     DropDownPicker.setLanguage("PT");
+
+    var onC = useCallback(() => {
+        setOpenE(false);
+    }, []);
+
+    var onE = useCallback(() => {
+        setOpenC(false);
+    }, []);
 
     /*
     async function processamentoUseEffect() {
@@ -207,7 +221,7 @@ export default function Cad_Candidato({ navigation }) {
             <View style={styles.areaDados}>
                 <View style={styles.areaDescricao}>
                     <Text style={styles.nome}>Nome</Text>
-                    <TextInput style={styles.caixaTexto}/>
+                    <TextInput style={styles.caixaTexto} />
                 </View>
             </View>
 
@@ -215,19 +229,34 @@ export default function Cad_Candidato({ navigation }) {
                 <Text style={styles.lblDropdown}>Selecione o partido</Text>
             </View>
 
-            <View>
+            <View style={styles.areaDescricao2}>
                 <Text style={styles.lblDropdown}>Selecione o cargo</Text>
+                <DropDownPicker
+                    open={openC}
+                    setOpen={setOpenC}
+                    onOpen={onC}
+                    items={cargos}
+                    setCargos={setCargos}
+                    value={valueC}
+                    setValue={setValueC}
+                    style={styles.dropState2}
+                    dropDownContainerStyle={{
+                        width: '52%', marginLeft: 104
+                    }}
+                ></DropDownPicker>
             </View>
 
             <View style={styles.areaDescricao2}>
                 <Text style={styles.lblDropdown}>Selecione o estado</Text>
                 <DropDownPicker
-                    open={open}
-                    setOpen={setOpen}
-                    items={items}
-                    setItems={setItems}
-                    value={value}
-                    setValue={setValue}
+                    zIndex={1000}
+                    open={openE}
+                    setOpen={setOpenE}
+                    onOpen={onE}
+                    items={estados}
+                    setEstados={setEstados}
+                    value={valueE}
+                    setValue={setValueE}
                     style={styles.dropState}
                     dropDownContainerStyle={{
                         width: '27.5%', alignSelf: 'center'
@@ -238,11 +267,11 @@ export default function Cad_Candidato({ navigation }) {
             <View style={styles.areaDados}>
                 <View style={styles.areaDescricao2}>
                     <Text style={styles.nome}>Número do Candidato</Text>
-                    <TextInput style={styles.caixaTexto2} keyboardType="numeric"/>
+                    <TextInput style={styles.caixaTexto2} keyboardType="numeric" />
                 </View>
             </View>
 
-            <TouchableOpacity style={styles.button} onPress={()=>{}}>
+            <TouchableOpacity style={styles.button} onPress={() => { }}>
                 <Text style={styles.textButton}>Cadastrar</Text>
             </TouchableOpacity>
         </View>

@@ -140,6 +140,10 @@ const styles = StyleSheet.create({
     dropState: {
         width: 80,
         marginLeft: 104
+    },
+    dropState2: {
+        width: 150,
+        marginLeft: 104
     }
 })
 
