@@ -7,11 +7,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: '#ffffff'
     },
-    titulo: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        marginBottom: 20
-    },
     areaLogo: {
         width:200,
         height: 200,
@@ -23,19 +18,60 @@ const styles = StyleSheet.create({
         width: '80%'
     },
     button: {
-        width: '100%',
+        width: '50%',
         height: 60,
         borderRadius: 22,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#ff9500',
-        marginTop: 20,
+        marginLeft: 90
     },
     textButton: {
         fontSize: 18,
         color: '#ffffff',
         fontWeight: 'bold'
-    }
+    },
+    campoCadastro: {
+        marginTop: 10,
+        height: 40,
+        width: 210,
+        backgroundColor: "#FFFFFF",
+        borderColor: "#000000",
+        borderWidth: 1,
+        borderRadius: 8,
+        marginBottom: 100
+    },
+    lblFields: {
+        marginRight: 170
+    },
+    titulo: {
+        fontSize: 23,
+        fontWeight: 'bold',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 140,
+
+    },
+    areaBtnVoltar: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        marginBottom: 80
+    },
+    btnVoltar: {
+        width: '12%',
+        height: 30,
+        borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#ff9500',
+        marginRight: 100,
+    },
+    textBtnVoltar: {
+        fontSize: 14,
+        color: '#ffffff',
+        fontWeight: 'bold'
+    },
 })
 
 export default styles;
