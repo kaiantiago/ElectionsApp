@@ -4,124 +4,58 @@ import {
     Alert, Text, TextInput, TouchableOpacity,
     View, Keyboard, ScrollView
   } from 'react-native';
-
+  import { adicionaPartido, alteraPartido, excluiPartido, obtemPartidos } from '../../services/api_partido';
 export default function Cad_Partido({ navigation }) {
 
-    const [id, setId] = useState();
-    const [descricao, setDescricao] = useState();
-    const [partidos, setPartidos] = useState([]);
+  const [id, setId] = useState();
+  const [partidos, setPartidos] = useState([]);
+  const [descricao, setDescricao] = useState();
 
-    let tabelasCriadas = false;
-  
-    /*
-    async function processamentoUseEffect() {
-      if (!tabelasCriadas) {
-        console.log("Verificando necessidade de criar tabelas...");
-        tabelasCriadas = true;
-        await createTables();
-      }
-  
+  async function processamentoUseEffect() {
       await carregaDados();
-    }
-  
+  }
 
-    useEffect(
+
+  useEffect(
       () => {
-        console.log('executando useffect');
-        processamentoUseEffect();
-    }, []);
-  
-    
-    function carregaDados() {
-        try {
-          
-        Categoria.listaCategorias().then((resposta) => {
-            let categs = resposta;
-            setCategorias(categs);
-        })
-        } catch (e) {
-            console.log(e.toString());
-            Alert.alert(e.toString());
-        }
-    }
+          console.log('executando useffect');
+          processamentoUseEffect();
+      }, []);
 
-    async function salvaDados() {
-        let novoRegistro = id == undefined;
-    
-        let obj = {
-          idC: id,
-          descricao: descricao
-        };
-    
-        try {
-          if (novoRegistro) {
-            let resposta = (await Categoria.adicionaCategoria(obj));
-    
-            if (resposta)
-              Alert.alert('adicionado com sucesso!');
-            else
-              Alert.alert('Falhou, sorry!');
-          }
-          else {      
-            let resposta = await Categoria.alteraCategoria(obj);
-            if (resposta)
-              Alert.alert('Alterado com sucesso!');
-            else
-              Alert.alert('Falhou, sorry!');
-          }
-          
-          limparCampos();
-          await carregaDados();
-        } catch (e) {
-          Alert.alert(e.message);
-        }
+
+
+  function carregaDados() {
+    try {
+      obtemPartidos().then((response) => response.json())
+      .then((resposta) => {
+        console.log(resposta)
+        let auxPartidos = resposta.partidos;
+        setPartidos(auxPartidos);
+      })
+    } catch (e) {
+      console.log(e.toString());
+      Alert.alert(e.toString());
+    }
+  }
+
+  async function salvaDados() {
+    try {
+
+      let obj = {
+        nome: descricao
       }
-      
-      
-    async function limparCampos() {
-        setDescricao("");
-        setId(undefined);
-        Keyboard.dismiss();
-    }
+      let resposta = (await adicionaPartido(obj));
 
-    function editar(identificador) {
-        const categ = categorias.find(categ => categ.idC == identificador);
-    
-        if (categ != undefined) {
-          setId(categ.idC);
-          setDescricao(categ.descricao);
-        }
-    
-        console.log(categ);
-    }
+          if (resposta)
+            Alert.alert('adicionado com sucesso!');
+          else
+            Alert.alert('Falhou, sorry!');
 
-    function removerElemento(identificador) {
-        Alert.alert('Atenção', 'Confirma a remoção da Categoria?',
-          [
-            {
-              text: 'Sim',
-              onPress: () => efetivaRemoverElemento(identificador),
-            },
-            {
-              text: 'Não',
-              style: 'cancel',
-            }
-          ]);
+    } catch (e) {
+      console.log(e.toString());
+      Alert.alert(e.toString());
     }
-
-    
-    async function efetivaRemoverElemento(identificador) {
-        try {
-            await Categoria.excluiCategoria(identificador);
-            Keyboard.dismiss();
-            limparCampos();
-            await carregaDados();
-            Alert.alert('Categoria apagada com sucesso!!!');
-        } catch (e) {
-            Alert.alert(e.message);
-        }
-    }
-*/
+  }
 
     return (
         <View style={styles.container}>

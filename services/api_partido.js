@@ -5,13 +5,13 @@ export function obtemPartidos(){
 }
 
 export function excluiPartido(id){
-    deletaDados(`partido/${id}`)
+    return deletaDados(`partido/${id}`)
 }
 
 export function adicionaPartido(partido){
-    salvaDados(JSON.stringify(partido), 'partido/registrar')
+    return salvaDados(JSON.stringify(partido), 'partido/registrar')
 }
 
 export function alteraPartido(partido){
-    alteraDados(JSON.stringify(partido), `partido/atualizar/${partido.id}`)
+    return alteraDados(JSON.stringify(partido), `partido/atualizar/${partido.id}`)
 }

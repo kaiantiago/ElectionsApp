@@ -5,6 +5,9 @@ import {
 } from 'react-native';
 import { useState, useEffect, useCallback } from 'react';
 import DropDownPicker from 'react-native-dropdown-picker';
+import { obtemPartidos } from '../../services/api_partido';
+import { adicionaCandidato, alteraCandidato, excluiCandidato, obtemCandidatos } from '../../services/api_candidato';
+import CardCandidato from '../../componentes/card_candidato';
 
 export default function Cad_Candidato({ navigation }) {
 
@@ -14,11 +17,14 @@ export default function Cad_Candidato({ navigation }) {
     const [descricao, setDescricao] = useState("");
     const [precoUn, setPrecoUn] = useState("");
     const [idCat, setIdCat] = useState("");
-    const [produtos, setProdutos] = useState([]);
+    const [candidatos, setCandidatos] = useState([]);
+    const [partidos, setPartidos] = useState([]);
     const [openC, setOpenC] = useState(false);
     const [valueC, setValueC] = useState(null);
     const [openE, setOpenE] = useState(false);
     const [valueE, setValueE] = useState(null);
+    const [openP, setOpenP] = useState(false);
+    const [valueP, setValueP] = useState(null);
     const [estados, setEstados] = useState([
         { label: 'AC', value: 'AC' },
         { label: 'AL', value: 'AL' },
@@ -54,8 +60,6 @@ export default function Cad_Candidato({ navigation }) {
         { label: 'Presidente', value: 'Presidente' },
     ]);
 
-    let tabelasCriadas = false;
-
     DropDownPicker.addTranslation("PT", {
         PLACEHOLDER: "",
         SEARCH_PLACEHOLDER: "Clique em qualquer item",
@@ -66,23 +70,22 @@ export default function Cad_Candidato({ navigation }) {
 
     var onC = useCallback(() => {
         setOpenE(false);
+        setOpenP(false);
     }, []);
 
     var onE = useCallback(() => {
         setOpenC(false);
+        setOpenP(false);
     }, []);
 
-    /*
+    var onP = useCallback(() => {
+        setOpenC(false);
+        setOpenE(false);
+    }, []);
+    
     async function processamentoUseEffect() {
-        if (!tabelasCriadas) {
-            console.log("Verificando necessidade de criar tabelas...");
-            tabelasCriadas = true;
-            await createTables();
-        }
-
         await carregaDados();
     }
-
 
 
     useEffect(
@@ -94,20 +97,27 @@ export default function Cad_Candidato({ navigation }) {
 
     function carregaDados() {
         try {
-            Produto.listaProdutos().then((resposta) => {
-
-                let produts = resposta;
-                setProdutos(produts);
-            })
-            Categoria.listaCategorias().then((resposta) => {
-                let categs = [];
+            obtemCandidatos().then((response) => response.json())
+            .then((resposta) => {
+                let cds = resposta.candidatos;
                 console.log(resposta);
-                resposta.forEach(element => {
-                    categs.push({ label: element.descricao, value: element.idC })
+                setCandidatos(cds);
+            }).catch((err )=> {
+                console.log("Promise Rejected:"+err);
+           });
+            obtemPartidos().then((response) => response.json())
+            .then((resposta) => {
+                let partds = [];
+                let ptds = resposta.partidos;
+                console.log(ptds);
+                ptds.forEach(element => {
+                    partds.push({ label: element.nome, value: element._id })
                 });
-                console.log(categs);
-                setCategorias(categs);
-            })
+                console.log(partds);
+                setPartidos(partds);
+            }).catch((err )=> {
+                console.log("Promise Rejected:"+err);
+           });
         } catch (e) {
             console.log(e.toString());
             Alert.alert(e.toString());
@@ -118,10 +128,12 @@ export default function Cad_Candidato({ navigation }) {
         let novoRegistro = id == undefined;
 
         let obj = {
-            id: id,
-            descricao: descricao,
-            precoUn: precoUn,
-            idCat: value
+            nome: descricao,
+            numero: precoUn,
+            partidoCandidato: valueP,
+            cargo: valueC,
+            estado: valueE,
+            imgId: ''
         };
 
         
@@ -131,9 +143,8 @@ export default function Cad_Candidato({ navigation }) {
         }
 
         try {
-
             if (novoRegistro) {
-                let resposta = (await Produto.adicionaProduto(obj));
+                let resposta = (await adicionaCandidato(obj));
 
                 if (resposta)
                     Alert.alert('adicionado com sucesso!');
@@ -141,7 +152,7 @@ export default function Cad_Candidato({ navigation }) {
                     Alert.alert('Falhou, sorry!');
             }
             else {
-                let resposta = await Produto.alteraProduto(obj);
+                let resposta = await alteraCandidato(obj);
                 if (resposta)
                     Alert.alert('Alterado com sucesso!');
                 else
@@ -161,23 +172,28 @@ export default function Cad_Candidato({ navigation }) {
         setIdCat("");
         setPrecoUn("");
         setId(undefined);
-        setValue(null);
-        setOpen(false);
+
+        setValueP(null);
+        setOpenP(false);
+        setValueE(null);
+        setOpenE(false);
+        setValueC(null);
+        setOpenC(false);
         Keyboard.dismiss();
     }
 
     function editar(identificador) {
-        const produto = produtos.find(produto => produto.id == identificador);
+        const cand = candidatos.find(cand => cand._id == identificador);
 
-        if (produto != undefined) {
-            setId(produto.id);
-            setDescricao(produto.descricao);
-            setPrecoUn(produto.precoUn.toString());
-            setIdCat(produto.idCat);
-            setValue(produto.idCat);
+        if (cand != undefined) {
+            setId(cand._id);
+            setDescricao(cand.nome);
+            setPrecoUn(cand.numero.toString());
+            setIdCat(cand.idCat);
+            setValueP(cand.idCat);
         }
 
-        console.log(produto);
+        console.log(cand);
     }
 
     function removerElemento(identificador) {
@@ -197,7 +213,7 @@ export default function Cad_Candidato({ navigation }) {
 
     async function efetivaRemoverElemento(identificador) {
         try {
-            await Produto.excluiProduto(identificador);
+            await excluiCandidato(identificador);
             Keyboard.dismiss();
             limparCampos();
             await carregaDados();
@@ -206,7 +222,7 @@ export default function Cad_Candidato({ navigation }) {
             Alert.alert(e.message);
         }
     }
-    */
+
     return (
         <View style={styles.container}>
             <View style={styles.areaBtnVoltar}>
@@ -221,12 +237,27 @@ export default function Cad_Candidato({ navigation }) {
             <View style={styles.areaDados}>
                 <View style={styles.areaDescricao}>
                     <Text style={styles.nome}>Nome</Text>
-                    <TextInput style={styles.caixaTexto} />
+                    <TextInput style={styles.caixaTexto} 
+                        onChangeText={(texto) => setDescricao(texto)}
+                        value={descricao} />
                 </View>
             </View>
 
-            <View>
+            <View style={styles.areaDescricao2}>
                 <Text style={styles.lblDropdown}>Selecione o partido</Text>
+                <DropDownPicker
+                    open={openP}
+                    setOpen={setOpenP}
+                    onOpen={onP}
+                    items={partidos}
+                    setPartidos={setPartidos}
+                    value={valueP}
+                    setValue={setValueP}
+                    style={styles.dropState2}
+                    dropDownContainerStyle={{
+                        width: '52%', marginLeft: 104
+                    }}
+                ></DropDownPicker>
             </View>
 
             <View style={styles.areaDescricao2}>
@@ -267,13 +298,26 @@ export default function Cad_Candidato({ navigation }) {
             <View style={styles.areaDados}>
                 <View style={styles.areaDescricao2}>
                     <Text style={styles.nome}>Número do Candidato</Text>
-                    <TextInput style={styles.caixaTexto2} keyboardType="numeric" />
+                    <TextInput style={styles.caixaTexto2} 
+                    onChangeText={(texto) => setPrecoUn(texto)}
+                    value={precoUn}
+                    keyboardType="numeric" />
                 </View>
             </View>
 
-            <TouchableOpacity style={styles.button} onPress={() => { }}>
+            <TouchableOpacity style={styles.button} onPress={() => salvaDados()}>
                 <Text style={styles.textButton}>Cadastrar</Text>
             </TouchableOpacity>
+
+            <ScrollView style={styles.listaProdutos}>
+                {
+                    candidatos.map((candidato, index) => (
+                        <CardCandidato candidato={candidato} key={index.toString()}
+                            removerElemento={removerElemento} editar={editar} />
+                    ))
+                }
+            </ScrollView>
+
         </View>
     )
 }

@@ -1,5 +1,5 @@
 
-var urlBack = "http://localhost:3000/"
+var urlBack = "http://192.168.0.20:3000/"
 
 export function getDados(urlGet){
         
@@ -10,7 +10,7 @@ export function getDados(urlGet){
     },
     body: "",
     };
-
+    console.log(`${urlBack}${urlGet}`);
     return fetch( `${urlBack}${urlGet}`, options);
 }
 

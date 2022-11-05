@@ -5,13 +5,13 @@ export function obtemVotos(){
 }
 
 export function excluiVoto(id){
-    deletaDados(`voto/${id}`)
+    return deletaDados(`voto/${id}`)
 }
 
 export function adicionaVoto(voto){
-    salvaDados(JSON.stringify(voto), 'voto/registrar')
+    return salvaDados(JSON.stringify(voto), 'voto/registrar')
 }
 
 /*export function alteraVoto(voto){
-    alteraDados(JSON.stringify(voto), `voto/atualizar/${voto.id}`)
+    return alteraDados(JSON.stringify(voto), `voto/atualizar/${voto.id}`)
 }*/
