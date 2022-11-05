@@ -5,6 +5,8 @@ import {
     View, Keyboard, ScrollView
   } from 'react-native';
   import { adicionaPartido, alteraPartido, excluiPartido, obtemPartidos } from '../../services/api_partido';
+  import CardPartido from '../../componentes/card_partido';
+
 export default function Cad_Partido({ navigation }) {
 
   const [id, setId] = useState();
@@ -80,10 +82,10 @@ export default function Cad_Partido({ navigation }) {
 
             <ScrollView style={styles.listaProdutos}>
             {
-                //categorias.map((categoria, index) => (
-                    //<CardCategoria categoria={categoria} key={index.toString()}
-                        //removerElemento={removerElemento} editar={editar} />
-                //))
+                partidos.map((partido, index) => (
+                  <CardCandidato partido={partido} key={index.toString()}
+                      removerElemento={removerElemento} editar={editar} />
+              ))
             }
             </ScrollView>
         </View>
