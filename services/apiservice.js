@@ -1,0 +1,54 @@
+
+var urlBack = "http://localhost:3000/"
+
+export function getDados(urlGet){
+        
+    const options = {
+    method: 'GET',
+    headers: {
+    'Content-Type': 'application/json',
+    },
+    body: "",
+    };
+
+    return fetch( `${urlBack}${urlGet}`, options);
+}
+
+export function salvaDados(objJson, urlPost){
+        
+    const options = {
+    method: 'POST',
+    headers: {
+    'Content-Type': 'application/json',
+    },
+    body: objJson,
+    };
+
+    return fetch( `${urlBack}${urlPost}`, options);
+}
+
+export function deletaDados(urlDelete){
+        
+    const options = {
+    method: 'DELETE',
+    headers: {
+    'Content-Type': 'application/json',
+    },
+    body: "",
+    };
+
+    return fetch( `${urlBack}${urlDelete}`, options);
+}
+
+export function alteraDados(objJson, urlPost){
+        
+    const options = {
+    method: 'PATCH',
+    headers: {
+    'Content-Type': 'application/json',
+    },
+    body: objJson,
+    };
+
+    return fetch( `${urlBack}${urlPost}`, options);
+}
