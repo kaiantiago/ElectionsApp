@@ -66,6 +66,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: '#ff9500',
         marginRight: 100,
+    }, 
+    areaDescricao2: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        width: '70%',
+        marginTop: 20
     },
     textBtnVoltar: {
         fontSize: 14,

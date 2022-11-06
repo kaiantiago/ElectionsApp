@@ -7,32 +7,138 @@ import {
 } from 'react-native';
 
 import DropDownPicker from 'react-native-dropdown-picker';
+import { adicionaVoto } from '../../services/api_votos';
+import { obtemCandidatos } from '../../services/api_candidato';
 
 
 
 export default function Votacao({ navigation }) {
 
-    DropDownPicker.setListMode("SCROLLVIEW");
-    const [id, setId] = useState();
-    const [cep, setCep] = useState();
-    const [total, setTotal] = useState(0);
-    const [qtd, setQtd] = useState("");
-    const [idCat, setIdCat] = useState();
-    const [todosProdutos, setTodosProdutos] = useState([]);
-    const [precoUn, setPrecoUn] = useState(0);
+    DropDownPicker.addTranslation("PT", {
+        PLACEHOLDER: "",
+        SEARCH_PLACEHOLDER: "Clique em qualquer item",
+        NOTHING_TO_SHOW: "Hmm, parece que não há itens"
+    });
 
-    const [openP, setOpenP] = useState(false);
-    const [valueP, setValueP] = useState(null);
-    const [produtos, setProdutos] = useState([]);
+    DropDownPicker.setLanguage("PT");
+
+    const [gov, setGov] = useState();
+    const [sen, setSen] = useState();
+    const [pres, setPres] = useState();
+
+    const [govNum, setGovNum] = useState(0);
+    const [senNum, setSenNum] = useState(0);
+    const [presNum, setPresNum] = useState(0);
+
+    const [estado, setEstado] = useState();
+    const [tituloEleitor, setTituloEleitor] = useState("");
+    const [tempTitulo, setTempTitulo] = useState("");
+    //apos digitar aparece candite name/foto
+
+    const [candidatos, setCandidatos] = useState();
+    const [openE, setOpenE] = useState(false);
+    const [valueE, setValueE] = useState(null);
+    const [estados, setEstados] = useState([
+        { label: 'AC', value: 'AC' },
+        { label: 'AL', value: 'AL' },
+        { label: 'AM', value: 'AM' },
+        { label: 'AP', value: 'AP' },
+        { label: 'BA', value: 'BA' },
+        { label: 'CE', value: 'CE' },
+        { label: 'DF', value: 'DF' },
+        { label: 'ES', value: 'ES' },
+        { label: 'GO', value: 'GO' },
+        { label: 'MA', value: 'MA' },
+        { label: 'MG', value: 'MG' },
+        { label: 'MS', value: 'MS' },
+        { label: 'MT', value: 'MT' },
+        { label: 'PA', value: 'PA' },
+        { label: 'PB', value: 'PB' },
+        { label: 'PE', value: 'PE' },
+        { label: 'PI', value: 'PI' },
+        { label: 'PR', value: 'PR' },
+        { label: 'RJ', value: 'RJ' },
+        { label: 'RN', value: 'RN' },
+        { label: 'RO', value: 'RO' },
+        { label: 'RR', value: 'RR' },
+        { label: 'RS', value: 'RS' },
+        { label: 'SC', value: 'SC' },
+        { label: 'SE', value: 'SE' },
+        { label: 'SP', value: 'SP' },
+        { label: 'TO', value: 'TO' }
+    ]);
+
+    async function processamentoUseEffect() {
+        await carregaDados();
+    }
+
+    useEffect(
+        () => {
+            console.log('executando useffect');
+            processamentoUseEffect();
+        }, []);
+
+    function carregaDados() {
+        try {
+            obtemCandidatos().then((response) => response.json())
+            .then((resposta) => {
+                let cds = resposta.candidatos;
+                console.log(resposta);
+                setCandidatos(cds);
+            }).catch((err )=> {
+                console.log("Promise Rejected:"+err);
+           });
+        } catch (e) {
+            console.log(e.toString());
+            Alert.alert(e.toString());
+        }
+    }
+
+    async function salvaDados() {
+        //console.log(prodsCompra);
+        /*prodsCompra.forEach(element => {
+            total += element.precoUn * element.qtd;
+        });*/
+
+        let obj = {
+            tituloEleitor: tempTitulo,
+            estado: estado,
+            candidatoGov: gov._id,
+            candidatoPres: pres._id,
+            candidatoSen: sen._id
+        };
+
+        try {
+
+            let resposta = (await adicionaVoto(obj));
+
+            if (resposta)
+                Alert.alert('Votação realizada com sucesso!!!');
+                //play sound
+            else
+                Alert.alert('Falha na compra, sorry!');
+
+            limparCampos();
+            await carregaDados();
+        } catch (e) {
+            Alert.alert(e.message);
+        }
+    }
 
 
-    const [openC, setOpenC] = useState(false);
-    const [valueC, setValueC] = useState(null);
-    const [categorias, setCategorias] = useState([]);
+    async function limparCampos() {
+        setPresNum(0);
+        setSenNum(0);
+        setGovNum(0);
+        setGov(null);
+        setSen(null);
+        setPres(null);
+        setEstado("");
+        setTituloEleitor("");
+        setTempTitulo("");
+        Keyboard.dismiss();
+    }
 
-    const [prodsCompra, setProdsCompra] = useState([]);
-
-    let tabelasCriadas = false;
 
     /*
         var onP = useCallback(() => {
@@ -230,7 +336,7 @@ export default function Votacao({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <ScrollView style={styles.scroll}>
+            <View style={styles.scroll}>
                 <View style={styles.areaBtnVoltar}>
                     <TouchableOpacity style={styles.btnVoltar} onPress={
                         () => navigation.navigate('Home')
@@ -240,25 +346,100 @@ export default function Votacao({ navigation }) {
                     <Text style={styles.titulo}>Votação</Text>
                 </View>
 
+                {tituloEleitor==""?
                 <View>
-                    <Text style={styles.lblFields}>Digite o número para governador</Text>
-                    <TextInput style={styles.campoCadastro}></TextInput>
-                </View>
+                    <View>
+                        <Text style={styles.lblFields}>Digite o número do titulo de eleitor</Text>
+                        <TextInput style={styles.campoCadastro} 
+                        onChangeText={(texto) => setTempTitulo(texto)}
+                        value={tempTitulo}
+                        keyboardType="numeric" ></TextInput>
+                    </View>
+                    <Text style={styles.lblDropdown}>Selecione o estado</Text>
+                    <View style={styles.areaDescricao2}>
+                        <DropDownPicker
+                            zIndex={1000}
+                            open={openE}
+                            setOpen={setOpenE}
+                            items={estados}
+                            setEstados={setEstados}
+                            value={valueE}
+                            setValue={setValueE}
+                            style={styles.dropState}
+                            dropDownContainerStyle={{
+                                width: '27.5%', alignSelf: 'center'
+                            }}
+                        ></DropDownPicker>
+                    </View>
+                    <TouchableOpacity style={styles.button} onPress={() => validaInicio()}>
+                        <Text style={styles.textButton}>Iniciar votação</Text>
+                    </TouchableOpacity>
 
+                </View>:
                 <View>
-                    <Text style={styles.lblFields}>Digite o número para senador</Text>
-                    <TextInput style={styles.campoCadastro}></TextInput>
-                </View>
+                    <View>
+                        <Text style={styles.lblFields}>Digite o número para governador</Text>
+                        {gov==null?<View></View>:
+                        <Text>Votando: {gov.nome}</Text>}
+                        <TextInput style={styles.campoCadastro} 
+                        onChangeText={(texto) => govDigitado(texto)}
+                        value={govNum}
+                        keyboardType="numeric" ></TextInput>
+                    </View>
 
-                <View>
-                    <Text style={styles.lblFields}>Digite o número para presidente</Text>
-                    <TextInput style={styles.campoCadastro}></TextInput>
-                </View>
-                <TouchableOpacity style={styles.button} onPress={() => { }}>
-                    <Text style={styles.textButton}>Confirma</Text>
-                </TouchableOpacity>
-                <Text></Text>
-            </ScrollView>
+                    <View>
+                        <Text style={styles.lblFields}>Digite o número para senador</Text>
+                        {sen==null?<View></View>:
+                        <Text>Votando: {sen.nome}</Text>}
+                        <TextInput style={styles.campoCadastro}
+                        onChangeText={(texto) => senDigitado(texto)}
+                        value={senNum}
+                        keyboardType="numeric"></TextInput>
+                    </View>
+
+                    <View>
+                        <Text style={styles.lblFields}>Digite o número para presidente</Text>
+                        {pres==null?<View></View>:
+                        <Text>Votando: {pres.nome}</Text>}
+                        <TextInput style={styles.campoCadastro}
+                        onChangeText={(texto) => presDigitado(texto)}
+                        value={presNum}
+                        keyboardType="numeric"></TextInput>
+                    </View>
+                    <TouchableOpacity style={styles.button} onPress={() => salvaDados()}>
+                        <Text style={styles.textButton}>Confirma</Text>
+                    </TouchableOpacity>
+                    <Text></Text>
+                </View>}
+            </View>
         </View>
     )
+
+    function senDigitado(num){
+        const cands = candidatos.filter(cand => cand.cargo == "SENANADOR");
+        const cand = cands.find(cand => cand.numero.toString() == num);
+        //check if null
+        setSenNum(num);
+        setSen(cand);
+    }
+    function presDigitado(num){
+        const cands = candidatos.filter(cand => cand.cargo == "PRESIDENTE");
+        const cand = cands.find(cand => cand.numero.toString() == num);
+        //check if null
+        setPresNum(num);
+        setPres(cand);
+    }
+    function govDigitado(num){
+        const cands = candidatos.filter(cand => cand.cargo == "GOVERNADOR" && cand.estado == estado);
+        const cand = cands.find(cand => cand.numero.toString() == num);
+        //todo check if null
+        setGovNum(num);
+        setGov(cand);
+    }
+    function validaInicio(){
+        //todo validar se eleitor já votou
+        setTituloEleitor(tempTitulo);
+        setEstado(valueE);
+    }
+
 }

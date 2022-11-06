@@ -5,7 +5,7 @@ import {
     View, Keyboard, ScrollView
   } from 'react-native';
   import { adicionaPartido, alteraPartido, excluiPartido, obtemPartidos } from '../../services/api_partido';
-  import CardPartido from '../../componentes/card_partido';
+import CardPartido from '../../componentes/card_partido';
 
 export default function Cad_Partido({ navigation }) {
 
@@ -52,13 +52,33 @@ export default function Cad_Partido({ navigation }) {
             Alert.alert('adicionado com sucesso!');
           else
             Alert.alert('Falhou, sorry!');
-
+        limparCampos();
+        await carregaDados();
     } catch (e) {
       console.log(e.toString());
       Alert.alert(e.toString());
     }
   }
 
+  async function limparCampos() {
+    setDescricao("");
+    Keyboard.dismiss();
+}
+
+
+  function removerElemento(identificador) {
+    Alert.alert('Atenção', 'Confirma a remoção do produto?',
+        [
+          {
+              text: 'Sim',
+              onPress: () => efetivaRemoverElemento(identificador),
+          },
+          {
+              text: 'Não',
+              style: 'cancel',
+          }
+      ]);
+}
     return (
         <View style={styles.container}>
             <View style={styles.areaBtnVoltar}>
@@ -83,8 +103,8 @@ export default function Cad_Partido({ navigation }) {
             <ScrollView style={styles.listaProdutos}>
             {
                 partidos.map((partido, index) => (
-                  <CardCandidato partido={partido} key={index.toString()}
-                      removerElemento={removerElemento} editar={editar} />
+                  <CardPartido partido={partido} key={index.toString()}
+                      removerElemento={removerElemento} editar={removerElemento} />
               ))
             }
             </ScrollView>

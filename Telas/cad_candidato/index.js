@@ -189,8 +189,10 @@ export default function Cad_Candidato({ navigation }) {
             setId(cand._id);
             setDescricao(cand.nome);
             setPrecoUn(cand.numero.toString());
-            setIdCat(cand.idCat);
-            setValueP(cand.idCat);
+            setIdCat(cand.partidoCandidato);
+            setValueP(cand.partidoCandidato);
+            setValueE(cand.estado);
+            setValueC(cand.cargo);
         }
 
         console.log(cand);
@@ -246,6 +248,7 @@ export default function Cad_Candidato({ navigation }) {
             <View style={styles.areaDescricao2}>
                 <Text style={styles.lblDropdown}>Selecione o partido</Text>
                 <DropDownPicker
+                    zIndex={6000}
                     open={openP}
                     setOpen={setOpenP}
                     onOpen={onP}
