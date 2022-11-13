@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import DropDownPicker from 'react-native-dropdown-picker';
-import { adicionaVoto } from '../../services/api_votos';
+import { adicionaVoto, obtemVotos } from '../../services/api_votos';
 import { obtemCandidatos } from '../../services/api_candidato';
 import { Audio } from 'expo-av';
 
@@ -37,6 +37,7 @@ export default function Votacao({ navigation }) {
     //apos digitar aparece candite name/foto
 
     const [candidatos, setCandidatos] = useState();
+    const [votos, setVotos] = useState();
     const [openE, setOpenE] = useState(false);
     const [valueE, setValueE] = useState(null);
     const [estados, setEstados] = useState([
@@ -100,6 +101,12 @@ export default function Votacao({ navigation }) {
 
     function carregaDados() {
         try {
+            obtemVotos().then((response) => response.json())
+            .then((resposta) => {
+                let vts = resposta.voto;
+                //console.log(resposta)
+                setVotos(vts);
+            })
             obtemCandidatos().then((response) => response.json())
                 .then((resposta) => {
                     let cds = resposta.candidatos;
@@ -480,7 +487,13 @@ export default function Votacao({ navigation }) {
         setGovNum(num);
         setGov(cand);
     }
-    function validaInicio() {
+    async function validaInicio()  {
+        var vts = votos;
+        if(vts.some(v => v.tituloEleitor == tempTitulo)){
+            Alert.alert("Já votou");
+            return;
+        }
+
         //todo validar se eleitor já votou
         setTituloEleitor(tempTitulo);
         setEstado(valueE);
