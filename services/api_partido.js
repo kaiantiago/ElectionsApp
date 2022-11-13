@@ -5,7 +5,7 @@ export function obtemPartidos(){
 }
 
 export function excluiPartido(id){
-    return deletaDados(`partido/${id}`)
+    return deletaDados(`partido/apagar/${id}`)
 }
 
 export function adicionaPartido(partido){

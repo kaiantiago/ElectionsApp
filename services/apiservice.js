@@ -23,7 +23,7 @@ export function salvaDados(objJson, urlPost){
     },
     body: objJson,
     };
-
+    console.log(objJson);
     return fetch( `${urlBack}${urlPost}`, options);
 }
 

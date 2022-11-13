@@ -5,7 +5,7 @@ export function obtemVotos(){
 }
 
 export function excluiVoto(id){
-    return deletaDados(`voto/${id}`)
+    return deletaDados(`voto/apagar/${id}`)
 }
 
 export function adicionaVoto(voto){

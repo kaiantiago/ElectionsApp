@@ -12,6 +12,7 @@ export default function Cad_Partido({ navigation }) {
   const [id, setId] = useState();
   const [partidos, setPartidos] = useState([]);
   const [descricao, setDescricao] = useState();
+  const [detalhes, setDetalhes] = useState();
 
   async function processamentoUseEffect() {
       await carregaDados();
@@ -44,7 +45,8 @@ export default function Cad_Partido({ navigation }) {
     try {
 
       let obj = {
-        nome: descricao
+        nome: descricao,
+        descricao: detalhes
       }
       let resposta = (await adicionaPartido(obj));
 
@@ -62,6 +64,7 @@ export default function Cad_Partido({ navigation }) {
 
   async function limparCampos() {
     setDescricao("");
+    setDetalhes("");
     Keyboard.dismiss();
 }
 
@@ -90,11 +93,17 @@ export default function Cad_Partido({ navigation }) {
                 <Text style={styles.titulo}>Cadastro de Partidos</Text>
             </View>
             <View>
-                <Text style={styles.lblCadastro}>Insira o nome do partido</Text>
+                <Text style={styles.lblCadastro}>Insira a sigla do partido</Text>
                 <TextInput style={styles.campoCadastro}
                     onChangeText={(texto) => setDescricao(texto)}
                     value={descricao}>
                 </TextInput>
+                <Text style={{marginTop:10}}>Insira a descricao do partido</Text>
+                <TextInput style={styles.campoCadastro}
+                    onChangeText={(texto) => setDetalhes(texto)}
+                    value={detalhes}>
+                </TextInput>
+
             </View>
             <TouchableOpacity style={styles.button} onPress={() => salvaDados()}>
                 <Text style={styles.textButton}>Cadastrar</Text>
