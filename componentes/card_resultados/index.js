@@ -12,7 +12,7 @@ export default function CardResultado({ canditatosVotos, titulo }) {
     
     //const [candidatos, setCandidatos] = useState([]);
     const [topCand, setTopCand] = useState([]);
-
+    const [empate, setEmpate] = useState(true);
     useEffect(
         () => {
             console.log('executando useffect');
@@ -23,7 +23,7 @@ export default function CardResultado({ canditatosVotos, titulo }) {
     function carregaDados() {
         try {
             console.log(canditatosVotos.length);
-            var votosSort = canditatosVotos.sort(function(c1, c2){return c1.votos-c2.votos})
+            var votosSort = canditatosVotos.sort(function(c1, c2){return c2.votos-c1.votos})
             if(votosSort.length==0){
                 //console.log(votosSort)
                 console.log('no vote here:'+titulo)
@@ -33,6 +33,15 @@ export default function CardResultado({ canditatosVotos, titulo }) {
             var maior = votosSort[0].votos;
             //var top = canditatosVotos.filter(vt => vt.votos == maior)
             var top = votosSort.slice(0, 3)
+            setEmpate(top.length==0)
+            if(top.length>=2){
+                var vencedor = canditatosVotos.filter(vt => vt.votos == maior)
+                console.log("wins:" +vencedor.length)
+                if(vencedor.length!=1){
+                    setEmpate(true)
+                }
+            }
+
             setTopCand(top);
             console.log('some votes here:'+titulo)
         } catch (e) {
@@ -47,8 +56,8 @@ export default function CardResultado({ canditatosVotos, titulo }) {
                 <CollapseHeader>
                     <View style={styles.contato}>
                         <Text style={styles.txtBloco}>Votos para {titulo}</Text>
-                        <Text style={{ marginLeft: 10 }}>Azul</Text>
-                        <Text style={{ marginLeft: 10, fontWeight: 'bold' }}>Teste</Text>
+                        <Text style={{ marginLeft: 10 }}></Text>
+                        <Text style={{ marginLeft: 10, fontWeight: 'bold' }}>{empate?"Empate":`Vencedor:${topCand[0].nome}`}</Text>
                     </View>
                 </CollapseHeader>
                 <CollapseBody >

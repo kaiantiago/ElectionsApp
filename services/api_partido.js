@@ -15,3 +15,7 @@ export function adicionaPartido(partido){
 export function alteraPartido(partido){
     return alteraDados(JSON.stringify(partido), `partido/atualizar/${partido.id}`)
 }
+
+export function excluiTodosPartidos(){
+    return deletaDados(`partido/apagarTodos`)
+}
