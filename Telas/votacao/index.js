@@ -379,34 +379,53 @@ export default function Votacao({ navigation }) {
                     </View> :
                     <ScrollView>
                         <View>
-                            <View>
-                                <Text style={styles.lblFields}>Digite o número para governador</Text>
-                                {gov == null ? <View></View> :
-                                    <Text>Votando: {gov.nome}</Text>}
-                                <TextInput style={styles.campoCadastro}
-                                    onChangeText={(texto) => govDigitado(texto)}
-                                    value={govNum}
-                                    keyboardType="numeric" ></TextInput>
-                            </View>
+                            <View style={styles.rowFoto}>
+                                <View>
+                                    <Text style={styles.lblFields}>Digite o número para governador</Text>
+                                    {gov == null ? <View></View> :
+                                        <Text>Votando: {gov.nome}</Text>}
+                                    <TextInput style={styles.campoCadastro}
+                                        onChangeText={(texto) => govDigitado(texto)}
+                                        value={govNum}
+                                        keyboardType="numeric" ></TextInput>
+                                </View>
 
-                            <View>
-                                <Text style={styles.lblFields}>Digite o número para senador</Text>
-                                {sen == null ? <View></View> :
-                                    <Text>Votando: {sen.nome}</Text>}
-                                <TextInput style={styles.campoCadastro}
-                                    onChangeText={(texto) => senDigitado(texto)}
-                                    value={senNum}
-                                    keyboardType="numeric"></TextInput>
-                            </View>
+                                <Image
+                                    style={styles.areaLogo}
+                                    source={{ uri: 'https://i.pravatar.cc/400?img=51' }}
+                                />
 
-                            <View>
-                                <Text style={styles.lblFields}>Digite o número para presidente</Text>
-                                {pres == null ? <View></View> :
-                                    <Text>Votando: {pres.nome}</Text>}
-                                <TextInput style={styles.campoCadastro}
-                                    onChangeText={(texto) => presDigitado(texto)}
-                                    value={presNum}
-                                    keyboardType="numeric"></TextInput>
+                            </View>
+                            <View style={styles.rowFoto}>
+                                <View>
+                                    <Text style={styles.lblFields}>Digite o número para senador</Text>
+                                    {sen == null ? <View></View> :
+                                        <Text>Votando: {sen.nome}</Text>}
+                                    <TextInput style={styles.campoCadastro}
+                                        onChangeText={(texto) => senDigitado(texto)}
+                                        value={senNum}
+                                        keyboardType="numeric"></TextInput>
+                                </View>
+
+                                <Image
+                                    style={styles.areaLogo}
+                                    source={{ uri: 'https://i.pravatar.cc/400?img=12' }}
+                                />
+                            </View>
+                            <View style={styles.rowFoto}>
+                                <View>
+                                    <Text style={styles.lblFields}>Digite o número para presidente</Text>
+                                    {pres == null ? <View></View> :
+                                        <Text>Votando: {pres.nome}</Text>}
+                                    <TextInput style={styles.campoCadastro}
+                                        onChangeText={(texto) => presDigitado(texto)}
+                                        value={presNum}
+                                        keyboardType="numeric"></TextInput>
+                                </View>
+                                <Image
+                                    style={styles.areaLogo}
+                                    source={{ uri: 'https://i.pravatar.cc/400?img=68' }}
+                                />
                             </View>
                             <TouchableOpacity style={styles.button} onPress={() => salvaDados()}>
                                 <Text style={styles.textButton}>Confirma</Text>

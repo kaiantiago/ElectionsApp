@@ -8,9 +8,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff'
     },
     areaLogo: {
-        width:200,
-        height: 200,
-        alignSelf: 'center'
+        width:100,
+        height: 100,
     },
     areaMenu: {
         justifyContent: 'space-around',
@@ -79,6 +78,11 @@ const styles = StyleSheet.create({
         color: '#ffffff',
         fontWeight: 'bold'
     },
+    rowFoto: {
+        flexDirection: 'row',
+        marginLeft: 10,
+    },
+    
 })
 
 export default styles;
