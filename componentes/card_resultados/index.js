@@ -21,17 +21,18 @@ export default function CardResultado({ votos, titulo }) {
 
     function carregaDados() {
         try {
+            console.log(votos.length);
             var votosSort = votos.sort(function(c1, c2){return c1.votos-c2.votos})
             if(votosSort.length==0){
                 //console.log(votosSort)
-                console.log('no vote here')
+                console.log('no vote here:'+titulo)
                 return;
             }
             
             var maior = votosSort[0].votos;
             var top = votos.filter(vt => vt.votos == maior)
             setTopCand(top);
-            console.log('some votes here')
+            console.log('some votes here:'+titulo)
         } catch (e) {
             console.log(e.toString());
             Alert.alert(e.toString());
@@ -39,7 +40,7 @@ export default function CardResultado({ votos, titulo }) {
     }
     
     return (
-        <View style={{ width: '100%', flex:1 }}>
+        <View style={{ width: '100%'}}>
             <Collapse style={{ width: '100%' }}>
                 <CollapseHeader>
                     <View style={styles.contato}>
@@ -52,15 +53,15 @@ export default function CardResultado({ votos, titulo }) {
                     {topCand.map((prod, index) => (
                         <View key={index.toString()} style={styles.bodyCollapse}>
                             <Text style={{ marginLeft: 15 }}>{prod.nome}</Text>
-                            <Text style={{ marginLeft: 15 }}>{prod.numero}</Text>
-                            <Text style={{ marginLeft: 15 }}>{prod.votos}</Text>
+                            <Text style={{ marginLeft: 15 }}>Numero: {prod.numero}</Text>
+                            <Text style={{ marginLeft: 15 }}>Votos: {prod.votos}</Text>
                         </View>
                     ))}
                 </CollapseBody>
             </Collapse>
-            
         </View>
     );
 }
 
-/*  */
+/** 
+             */
