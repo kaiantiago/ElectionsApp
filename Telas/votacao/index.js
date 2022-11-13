@@ -9,7 +9,7 @@ import {
 import DropDownPicker from 'react-native-dropdown-picker';
 import { adicionaVoto } from '../../services/api_votos';
 import { obtemCandidatos } from '../../services/api_candidato';
-
+import { Audio } from 'expo-av';
 
 
 export default function Votacao({ navigation }) {
@@ -22,6 +22,7 @@ export default function Votacao({ navigation }) {
 
     DropDownPicker.setLanguage("PT");
 
+    const [sound, setSound] = useState();
     const [gov, setGov] = useState();
     const [sen, setSen] = useState();
     const [pres, setPres] = useState();
@@ -72,6 +73,25 @@ export default function Votacao({ navigation }) {
         await carregaDados();
     }
 
+    async function playSound() {
+        console.log('Loading Sound');
+        const { sound } = await Audio.Sound.createAsync(require('../../assets/sounds/urna-sound.mp3')
+        );
+        setSound(sound);
+
+        console.log('Playing Sound');
+        await sound.playAsync();
+    }
+
+    useEffect(() => {
+        return sound
+            ? () => {
+                console.log('Unloading Sound');
+                sound.unloadAsync();
+            }
+            : undefined;
+    }, [sound]);
+
     useEffect(
         () => {
             console.log('executando useffect');
@@ -112,9 +132,10 @@ export default function Votacao({ navigation }) {
 
             let resposta = (await adicionaVoto(obj));
 
-            if (resposta)
+            if (resposta) {
                 Alert.alert('Votação realizada com sucesso!!!');
-            //play sound
+                playSound();
+            }
             else
                 Alert.alert('Falha na compra, sorry!');
 
@@ -138,6 +159,7 @@ export default function Votacao({ navigation }) {
         setTempTitulo("");
         Keyboard.dismiss();
     }
+
 
 
     /*

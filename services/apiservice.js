@@ -1,5 +1,5 @@
 
-var urlBack = "http://192.168.0.20:3000/"
+var urlBack = "http://192.168.0.24:3000/"
 
 export function getDados(urlGet){
         
