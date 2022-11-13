@@ -279,7 +279,8 @@ export default function Cad_Candidato({ navigation }) {
                     }}
                 ></DropDownPicker>
             </View>
-
+            {valueC=="Presidente"?
+            <View></View>:
             <View style={styles.areaDescricao2}>
                 <Text style={styles.lblDropdown}>Selecione o estado</Text>
                 <DropDownPicker
@@ -296,7 +297,8 @@ export default function Cad_Candidato({ navigation }) {
                         width: '27.5%', alignSelf: 'center'
                     }}
                 ></DropDownPicker>
-            </View>
+            </View>}
+            
 
             <View style={styles.areaDados}>
                 <View style={styles.areaDescricao2}>

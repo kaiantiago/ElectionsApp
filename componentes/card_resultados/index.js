@@ -8,7 +8,7 @@ import { Collapse, CollapseHeader, CollapseBody, AccordionList } from 'accordion
 import { obtemCandidatos } from '../../services/api_candidato';
 //import { Thumbnail, List, ListItem, Separator } from 'native-base';
 
-export default function CardResultado({ votos, titulo }) {
+export default function CardResultado({ canditatosVotos, titulo }) {
     
     //const [candidatos, setCandidatos] = useState([]);
     const [topCand, setTopCand] = useState([]);
@@ -17,12 +17,13 @@ export default function CardResultado({ votos, titulo }) {
         () => {
             console.log('executando useffect');
             carregaDados();
-        }, []);
+
+        }, [canditatosVotos]);
 
     function carregaDados() {
         try {
-            console.log(votos.length);
-            var votosSort = votos.sort(function(c1, c2){return c1.votos-c2.votos})
+            console.log(canditatosVotos.length);
+            var votosSort = canditatosVotos.sort(function(c1, c2){return c1.votos-c2.votos})
             if(votosSort.length==0){
                 //console.log(votosSort)
                 console.log('no vote here:'+titulo)
@@ -30,7 +31,8 @@ export default function CardResultado({ votos, titulo }) {
             }
             
             var maior = votosSort[0].votos;
-            var top = votos.filter(vt => vt.votos == maior)
+            //var top = canditatosVotos.filter(vt => vt.votos == maior)
+            var top = votosSort.slice(0, 3)
             setTopCand(top);
             console.log('some votes here:'+titulo)
         } catch (e) {
@@ -53,7 +55,7 @@ export default function CardResultado({ votos, titulo }) {
                     {topCand.map((prod, index) => (
                         <View key={index.toString()} style={styles.bodyCollapse}>
                             <Text style={{ marginLeft: 15 }}>{prod.nome}</Text>
-                            <Text style={{ marginLeft: 15 }}>Numero: {prod.numero}</Text>
+                            <Text style={{ marginLeft: 15 }}>Nº: {prod.numero}</Text>
                             <Text style={{ marginLeft: 15 }}>Votos: {prod.votos}</Text>
                         </View>
                     ))}

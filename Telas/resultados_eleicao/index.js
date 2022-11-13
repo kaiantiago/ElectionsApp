@@ -16,6 +16,8 @@ export default function Resutados({ navigation }) {
 
     const [votos, setVotos] = useState([]);
     const [candidatos, setCandidatos] = useState([]);
+    const [candidatosP, setCandidatosP] = useState([]);
+    const [candidatosS, setCandidatosS] = useState([]);
     const [tituloEleitor, setTituloEleitor] = useState("");
 
     const [estados, setEstados] = useState([
@@ -63,13 +65,14 @@ export default function Resutados({ navigation }) {
             obtemVotos().then((response) => response.json())
             .then((resposta) => {
                 let vts = resposta.voto;
-                console.log(resposta)
+                //console.log(resposta)
                 setVotos(vts);
                 obtemCandidatos().then((response) => response.json())
                 .then((resposta) => {
                     let cds = resposta.candidatos;
                     //setCandidatos(cds);
                     //console.log(votos);
+                    console.log(cds.length)
                     cds.forEach(cd => {
                         var nomeCampo = "";
                         if(cd.cargo=="GOVERNADOR"){
@@ -88,6 +91,8 @@ export default function Resutados({ navigation }) {
                     console.log(cds);
                     //usar cds para passar pro card
                     setCandidatos(cds);
+                    setCandidatosP(cds.filter(cand => cand.cargo == "PRESIDENTE"));
+                    setCandidatosS(cds.filter(cand => cand.cargo == "SENANADOR"));
                 }).catch((err )=> {
                     console.log("Promise Rejected:"+err);
             });
@@ -116,13 +121,13 @@ export default function Resutados({ navigation }) {
                 {tituloEleitor==""?
                 <ScrollView>
                     <Text style={{marginTop: 25}}></Text>
-                    <CardResultado votos={candidatos.filter(cand => cand.cargo == "PRESIDENTE")} titulo={'presidente'} 
+                    <CardResultado key={99999999} canditatosVotos={candidatosP} titulo={'presidente'} 
                         />
-                    <CardResultado votos={candidatos.filter(cand => cand.cargo == "SENANADOR")}  titulo={'senador'} />
+                    <CardResultado key={99999998} canditatosVotos={candidatosS}  titulo={'senador'} />
                     {
                         estados.map((estd, index) => (
                             <View>{candidatos.some(c => c.estado == estd.value)?
-                            <CardResultado key={index.toString()} votos={candidatos.filter(cand => cand.cargo == "GOVERNADOR"&&cand.estado == estd.value)} titulo={`governador ${estd.value}`} />
+                            <CardResultado key={index.toString()} canditatosVotos={candidatos.filter(cand => cand.cargo == "GOVERNADOR"&&cand.estado == estd.value)} titulo={`governador ${estd.value}`} />
                             : <View></View>}
                             </View>
                         ))
