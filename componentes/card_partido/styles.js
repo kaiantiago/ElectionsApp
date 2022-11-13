@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
     listaNome: {
         width: '70%',
         fontSize: 18,
+        marginLeft: 50
     },
     txtPreco:{
         width: "20%",
