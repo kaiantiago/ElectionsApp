@@ -24,7 +24,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#ff9500',
-        marginLeft: 90
+        marginLeft: 90,
+        marginTop: 70
     },
     textButton: {
         fontSize: 18,
@@ -70,7 +71,7 @@ const styles = StyleSheet.create({
     areaDescricao2: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        width: '70%',
+        width: '20%',
         marginTop: 20
     },
     textBtnVoltar: {

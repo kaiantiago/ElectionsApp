@@ -81,13 +81,13 @@ export default function Votacao({ navigation }) {
     function carregaDados() {
         try {
             obtemCandidatos().then((response) => response.json())
-            .then((resposta) => {
-                let cds = resposta.candidatos;
-                console.log(resposta);
-                setCandidatos(cds);
-            }).catch((err )=> {
-                console.log("Promise Rejected:"+err);
-           });
+                .then((resposta) => {
+                    let cds = resposta.candidatos;
+                    console.log(resposta);
+                    setCandidatos(cds);
+                }).catch((err) => {
+                    console.log("Promise Rejected:" + err);
+                });
         } catch (e) {
             console.log(e.toString());
             Alert.alert(e.toString());
@@ -114,7 +114,7 @@ export default function Votacao({ navigation }) {
 
             if (resposta)
                 Alert.alert('Votação realizada com sucesso!!!');
-                //play sound
+            //play sound
             else
                 Alert.alert('Falha na compra, sorry!');
 
@@ -335,6 +335,7 @@ export default function Votacao({ navigation }) {
     */
 
     return (
+
         <View style={styles.container}>
             <View style={styles.scroll}>
                 <View style={styles.areaBtnVoltar}>
@@ -346,97 +347,99 @@ export default function Votacao({ navigation }) {
                     <Text style={styles.titulo}>Votação</Text>
                 </View>
 
-                {tituloEleitor==""?
-                <View>
+                {tituloEleitor == "" ?
                     <View>
-                        <Text style={styles.lblFields}>Digite o número do titulo de eleitor</Text>
-                        <TextInput style={styles.campoCadastro} 
-                        onChangeText={(texto) => setTempTitulo(texto)}
-                        value={tempTitulo}
-                        keyboardType="numeric" ></TextInput>
-                    </View>
-                    <Text style={styles.lblDropdown}>Selecione o estado</Text>
-                    <View style={styles.areaDescricao2}>
-                        <DropDownPicker
-                            zIndex={1000}
-                            open={openE}
-                            setOpen={setOpenE}
-                            items={estados}
-                            setEstados={setEstados}
-                            value={valueE}
-                            setValue={setValueE}
-                            style={styles.dropState}
-                            dropDownContainerStyle={{
-                                width: '27.5%', alignSelf: 'center'
-                            }}
-                        ></DropDownPicker>
-                    </View>
-                    <TouchableOpacity style={styles.button} onPress={() => validaInicio()}>
-                        <Text style={styles.textButton}>Iniciar votação</Text>
-                    </TouchableOpacity>
+                        <View>
+                            <Text style={styles.lblFields}>Digite o número do titulo de eleitor</Text>
+                            <TextInput style={styles.campoCadastro}
+                                onChangeText={(texto) => setTempTitulo(texto)}
+                                value={tempTitulo}
+                                keyboardType="numeric" ></TextInput>
+                        </View>
+                        <Text style={styles.lblDropdown}>Selecione o estado</Text>
+                        <View style={styles.areaDescricao2}>
+                            <DropDownPicker
+                                zIndex={1000}
+                                open={openE}
+                                setOpen={setOpenE}
+                                items={estados}
+                                setEstados={setEstados}
+                                value={valueE}
+                                setValue={setValueE}
+                                style={styles.dropState}
+                                dropDownContainerStyle={{
+                                    width: '100%', alignSelf: 'center'
+                                }}
+                            ></DropDownPicker>
+                        </View>
+                        <TouchableOpacity style={styles.button} onPress={() => validaInicio()}>
+                            <Text style={styles.textButton}>Iniciar votação</Text>
+                        </TouchableOpacity>
 
-                </View>:
-                <View>
-                    <View>
-                        <Text style={styles.lblFields}>Digite o número para governador</Text>
-                        {gov==null?<View></View>:
-                        <Text>Votando: {gov.nome}</Text>}
-                        <TextInput style={styles.campoCadastro} 
-                        onChangeText={(texto) => govDigitado(texto)}
-                        value={govNum}
-                        keyboardType="numeric" ></TextInput>
-                    </View>
+                    </View> :
+                    <ScrollView>
+                        <View>
+                            <View>
+                                <Text style={styles.lblFields}>Digite o número para governador</Text>
+                                {gov == null ? <View></View> :
+                                    <Text>Votando: {gov.nome}</Text>}
+                                <TextInput style={styles.campoCadastro}
+                                    onChangeText={(texto) => govDigitado(texto)}
+                                    value={govNum}
+                                    keyboardType="numeric" ></TextInput>
+                            </View>
 
-                    <View>
-                        <Text style={styles.lblFields}>Digite o número para senador</Text>
-                        {sen==null?<View></View>:
-                        <Text>Votando: {sen.nome}</Text>}
-                        <TextInput style={styles.campoCadastro}
-                        onChangeText={(texto) => senDigitado(texto)}
-                        value={senNum}
-                        keyboardType="numeric"></TextInput>
-                    </View>
+                            <View>
+                                <Text style={styles.lblFields}>Digite o número para senador</Text>
+                                {sen == null ? <View></View> :
+                                    <Text>Votando: {sen.nome}</Text>}
+                                <TextInput style={styles.campoCadastro}
+                                    onChangeText={(texto) => senDigitado(texto)}
+                                    value={senNum}
+                                    keyboardType="numeric"></TextInput>
+                            </View>
 
-                    <View>
-                        <Text style={styles.lblFields}>Digite o número para presidente</Text>
-                        {pres==null?<View></View>:
-                        <Text>Votando: {pres.nome}</Text>}
-                        <TextInput style={styles.campoCadastro}
-                        onChangeText={(texto) => presDigitado(texto)}
-                        value={presNum}
-                        keyboardType="numeric"></TextInput>
-                    </View>
-                    <TouchableOpacity style={styles.button} onPress={() => salvaDados()}>
-                        <Text style={styles.textButton}>Confirma</Text>
-                    </TouchableOpacity>
-                    <Text></Text>
-                </View>}
+                            <View>
+                                <Text style={styles.lblFields}>Digite o número para presidente</Text>
+                                {pres == null ? <View></View> :
+                                    <Text>Votando: {pres.nome}</Text>}
+                                <TextInput style={styles.campoCadastro}
+                                    onChangeText={(texto) => presDigitado(texto)}
+                                    value={presNum}
+                                    keyboardType="numeric"></TextInput>
+                            </View>
+                            <TouchableOpacity style={styles.button} onPress={() => salvaDados()}>
+                                <Text style={styles.textButton}>Confirma</Text>
+                            </TouchableOpacity>
+                            <Text></Text>
+                        </View></ScrollView>}
             </View>
         </View>
+
     )
 
-    function senDigitado(num){
+    function senDigitado(num) {
         const cands = candidatos.filter(cand => cand.cargo == "SENANADOR");
         const cand = cands.find(cand => cand.numero.toString() == num);
         //check if null
         setSenNum(num);
         setSen(cand);
     }
-    function presDigitado(num){
+    function presDigitado(num) {
         const cands = candidatos.filter(cand => cand.cargo == "PRESIDENTE");
         const cand = cands.find(cand => cand.numero.toString() == num);
         //check if null
         setPresNum(num);
         setPres(cand);
     }
-    function govDigitado(num){
+    function govDigitado(num) {
         const cands = candidatos.filter(cand => cand.cargo == "GOVERNADOR" && cand.estado == estado);
         const cand = cands.find(cand => cand.numero.toString() == num);
         //todo check if null
         setGovNum(num);
         setGov(cand);
     }
-    function validaInicio(){
+    function validaInicio() {
         //todo validar se eleitor já votou
         setTituloEleitor(tempTitulo);
         setEstado(valueE);

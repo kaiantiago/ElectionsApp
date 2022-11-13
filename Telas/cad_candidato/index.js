@@ -307,12 +307,12 @@ export default function Cad_Candidato({ navigation }) {
                     keyboardType="numeric" />
                 </View>
             </View>
-
+            
             <TouchableOpacity style={styles.button} onPress={() => salvaDados()}>
                 <Text style={styles.textButton}>Cadastrar</Text>
             </TouchableOpacity>
-
-            <ScrollView style={styles.listaProdutos}>
+            <Text></Text>
+            <ScrollView>
                 {
                     candidatos.map((candidato, index) => (
                         <CardCandidato candidato={candidato} key={index.toString()}
@@ -320,7 +320,13 @@ export default function Cad_Candidato({ navigation }) {
                     ))
                 }
             </ScrollView>
-
+            <Text></Text>
+            <Text></Text>
+            <Text></Text>
+            <Text></Text>
+            <Text></Text>
+            <Text></Text>
+            <Text></Text>
         </View>
     )
 }

@@ -74,13 +74,13 @@ const styles = StyleSheet.create({
     areaDados: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        width: '100%'
+        width: '100%',
     },
     areaDescricao: {
         flexDirection: 'row',
         justifyContent: 'space-around',
         width: '70%',
-        marginTop: 50
+        marginTop: 20
     },
     areaDescricao2: {
         flexDirection: 'row',
