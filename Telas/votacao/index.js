@@ -21,7 +21,7 @@ export default function Votacao({ navigation }) {
     });
 
     DropDownPicker.setLanguage("PT");
-
+    const dfImage = "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png";
     const [sound, setSound] = useState();
     const [gov, setGov] = useState();
     const [sen, setSen] = useState();
@@ -168,7 +168,6 @@ export default function Votacao({ navigation }) {
     }
 
     return (
-
         <View style={styles.container}>
             <View style={styles.scroll}>
                 <View style={styles.areaBtnVoltar}>
@@ -215,50 +214,69 @@ export default function Votacao({ navigation }) {
                             <View style={styles.rowFoto}>
                                 <View>
                                     <Text style={styles.lblFields}>Digite o número para governador</Text>
-                                    {gov == null ? <View></View> :
-                                        <Text>Votando: {gov.nome}</Text>}
+                                    
                                     <TextInput style={styles.campoCadastro}
                                         onChangeText={(texto) => govDigitado(texto)}
                                         value={govNum}
                                         keyboardType="numeric" ></TextInput>
                                 </View>
-
-                                <Image
-                                    style={styles.areaLogo}
-                                    source={{ uri: `https://i.pravatar.cc/400?img=${gov == null ? "51" : gov.imgId}` }}
-                                />
+                                <View>
+                                    <Image
+                                        style={styles.areaLogo}
+                                        source={{ uri: gov == null ? dfImage : `https://i.pravatar.cc/400?img=${gov.imgId}` }}
+                                    />
+                                    {gov == null ? <Text>Votando nulo</Text> :
+                                        <View>
+                                        <Text style={{width:105}}>Nome: {gov.nome}</Text>
+                                        <Text>Partido: {gov.partidoCandidato.nome}</Text>
+                                    </View>}
+                                </View>
+                                
 
                             </View>
                             <View style={styles.rowFoto}>
                                 <View>
                                     <Text style={styles.lblFields}>Digite o número para senador</Text>
-                                    {sen == null ? <View></View> :
-                                        <Text>Votando: {sen.nome}</Text>}
+                                    
                                     <TextInput style={styles.campoCadastro}
                                         onChangeText={(texto) => senDigitado(texto)}
                                         value={senNum}
                                         keyboardType="numeric"></TextInput>
                                 </View>
-
-                                <Image
-                                    style={styles.areaLogo}
-                                    source={{ uri: `https://i.pravatar.cc/400?img=${sen == null ? "12" : sen.imgId}` }}
-                                />
+                                <View>
+                                    <Image
+                                        style={styles.areaLogo}
+                                        source={{ uri: sen == null ? dfImage : `https://i.pravatar.cc/400?img=${sen.imgId}` }}
+                                    />
+                                    {sen == null ? <Text>Votando nulo</Text> :
+                                        <View>
+                                        <Text style={{width:105}}>Nome: {sen.nome}</Text>
+                                        <Text>Partido: {sen.partidoCandidato.nome}</Text>
+                                    </View>}
+                                </View>
+                                
                             </View>
                             <View style={styles.rowFoto}>
                                 <View>
                                     <Text style={styles.lblFields}>Digite o número para presidente</Text>
-                                    {pres == null ? <View></View> :
-                                        <Text>Votando: {pres.nome}</Text>}
+                                    
                                     <TextInput style={styles.campoCadastro}
                                         onChangeText={(texto) => presDigitado(texto)}
                                         value={presNum}
                                         keyboardType="numeric"></TextInput>
                                 </View>
-                                <Image
-                                    style={styles.areaLogo}
-                                    source={{ uri: `https://i.pravatar.cc/400?img=${pres == null ? "68" : pres.imgId}` }}
-                                />
+                                <View>
+                                    <Image
+                                        style={styles.areaLogo}
+                                        source={{ uri: pres == null ? dfImage : `https://i.pravatar.cc/400?img=${pres.imgId}` }}
+                                    />
+                                    {pres == null ? <Text>Votando nulo</Text> :
+                                        <View>
+                                            <Text style={{width:105}}>Nome: {pres.nome}</Text>
+                                            <Text>Partido: {pres.partidoCandidato.nome}</Text>
+                                        </View>}
+                                </View>
+                                
                             </View>
                             <TouchableOpacity style={styles.button} onPress={() => salvaDados()}>
                                 <Text style={styles.textButton}>Confirma</Text>

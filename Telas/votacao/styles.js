@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: '#ff9500',
         marginLeft: 90,
-        marginTop: 70
+        marginTop: 60
     },
     textButton: {
         fontSize: 18,
@@ -39,10 +39,10 @@ const styles = StyleSheet.create({
         borderColor: "#000000",
         borderWidth: 1,
         borderRadius: 8,
-        marginBottom: 100
+        marginBottom: 50
     },
     lblFields: {
-        marginRight: 150
+        marginRight: 140
     },
     titulo: {
         fontSize: 23,
