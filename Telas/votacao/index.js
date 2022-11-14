@@ -242,7 +242,7 @@ export default function Votacao({ navigation }) {
 
                                 <Image
                                     style={styles.areaLogo}
-                                    source={{ uri: `https://i.pravatar.cc/400?img=${sen == null ? "12": gov.imgId}` }}
+                                    source={{ uri: `https://i.pravatar.cc/400?img=${sen == null ? "12": sen.imgId}` }}
                                 />
                             </View>
                             <View style={styles.rowFoto}>
@@ -257,7 +257,7 @@ export default function Votacao({ navigation }) {
                                 </View>
                                 <Image
                                     style={styles.areaLogo}
-                                    source={{ uri: `https://i.pravatar.cc/400?img=${pres == null ? "68": gov.imgId}` }}
+                                    source={{ uri: `https://i.pravatar.cc/400?img=${pres == null ? "68": pres.imgId}` }}
                                 />
                             </View>
                             <TouchableOpacity style={styles.button} onPress={() => salvaDados()}>
