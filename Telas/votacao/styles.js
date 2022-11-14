@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
         marginBottom: 100
     },
     lblFields: {
-        marginRight: 170
+        marginRight: 150
     },
     titulo: {
         fontSize: 23,
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     areaDescricao2: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        width: '20%',
+        width: '45%',
         marginTop: 20
     },
     textBtnVoltar: {
@@ -81,6 +81,7 @@ const styles = StyleSheet.create({
     rowFoto: {
         flexDirection: 'row',
         marginLeft: 10,
+        marginEnd: 100
     },
     
 })

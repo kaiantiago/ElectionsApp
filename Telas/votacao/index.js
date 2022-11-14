@@ -102,11 +102,11 @@ export default function Votacao({ navigation }) {
     function carregaDados() {
         try {
             obtemVotos().then((response) => response.json())
-            .then((resposta) => {
-                let vts = resposta.voto;
-                //console.log(resposta)
-                setVotos(vts);
-            })
+                .then((resposta) => {
+                    let vts = resposta.voto;
+                    //console.log(resposta)
+                    setVotos(vts);
+                })
             obtemCandidatos().then((response) => response.json())
                 .then((resposta) => {
                     let cds = resposta.candidatos;
@@ -182,33 +182,33 @@ export default function Votacao({ navigation }) {
 
                 {tituloEleitor == "" ?
                     <View>
-                        <View>
-                            <Text style={styles.lblFields}>Digite o número do titulo de eleitor</Text>
-                            <TextInput style={styles.campoCadastro}
-                                onChangeText={(texto) => setTempTitulo(texto)}
-                                value={tempTitulo}
-                                keyboardType="numeric" ></TextInput>
+                        <View style={styles.centralizar}>
+                            <View>
+                                <Text>Digite o número do titulo de eleitor</Text>
+                                <TextInput style={styles.campoCadastro}
+                                    onChangeText={(texto) => setTempTitulo(texto)}
+                                    value={tempTitulo}
+                                    keyboardType="numeric" ></TextInput>
+                            </View>
+                            <Text>Selecione o estado</Text>
+                            <View style={styles.areaDescricao2}>
+                                <DropDownPicker
+                                    zIndex={1000}
+                                    open={openE}
+                                    setOpen={setOpenE}
+                                    items={estados}
+                                    setEstados={setEstados}
+                                    value={valueE}
+                                    setValue={setValueE}        
+                                    dropDownContainerStyle={{
+                                        width: '100%', alignSelf: 'center'
+                                    }}
+                                ></DropDownPicker>
+                            </View>
+                            <TouchableOpacity style={styles.button} onPress={() => validaInicio()}>
+                                <Text style={styles.textButton}>Iniciar votação</Text>
+                            </TouchableOpacity>
                         </View>
-                        <Text style={styles.lblDropdown}>Selecione o estado</Text>
-                        <View style={styles.areaDescricao2}>
-                            <DropDownPicker
-                                zIndex={1000}
-                                open={openE}
-                                setOpen={setOpenE}
-                                items={estados}
-                                setEstados={setEstados}
-                                value={valueE}
-                                setValue={setValueE}
-                                style={styles.dropState}
-                                dropDownContainerStyle={{
-                                    width: '100%', alignSelf: 'center'
-                                }}
-                            ></DropDownPicker>
-                        </View>
-                        <TouchableOpacity style={styles.button} onPress={() => validaInicio()}>
-                            <Text style={styles.textButton}>Iniciar votação</Text>
-                        </TouchableOpacity>
-
                     </View> :
                     <ScrollView>
                         <View>
@@ -225,7 +225,7 @@ export default function Votacao({ navigation }) {
 
                                 <Image
                                     style={styles.areaLogo}
-                                    source={{ uri: `https://i.pravatar.cc/400?img=${gov == null ? "51": gov.imgId}` }}
+                                    source={{ uri: `https://i.pravatar.cc/400?img=${gov == null ? "51" : gov.imgId}` }}
                                 />
 
                             </View>
@@ -242,7 +242,7 @@ export default function Votacao({ navigation }) {
 
                                 <Image
                                     style={styles.areaLogo}
-                                    source={{ uri: `https://i.pravatar.cc/400?img=${sen == null ? "12": sen.imgId}` }}
+                                    source={{ uri: `https://i.pravatar.cc/400?img=${sen == null ? "12" : sen.imgId}` }}
                                 />
                             </View>
                             <View style={styles.rowFoto}>
@@ -257,7 +257,7 @@ export default function Votacao({ navigation }) {
                                 </View>
                                 <Image
                                     style={styles.areaLogo}
-                                    source={{ uri: `https://i.pravatar.cc/400?img=${pres == null ? "68": pres.imgId}` }}
+                                    source={{ uri: `https://i.pravatar.cc/400?img=${pres == null ? "68" : pres.imgId}` }}
                                 />
                             </View>
                             <TouchableOpacity style={styles.button} onPress={() => salvaDados()}>
@@ -291,9 +291,9 @@ export default function Votacao({ navigation }) {
         setGovNum(num);
         setGov(cand);
     }
-    async function validaInicio()  {
+    async function validaInicio() {
         var vts = votos;
-        if(vts.some(v => v.tituloEleitor == tempTitulo)){
+        if (vts.some(v => v.tituloEleitor == tempTitulo)) {
             Alert.alert("Já votou");
             return;
         }

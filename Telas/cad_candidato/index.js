@@ -327,7 +327,7 @@ export default function Cad_Candidato({ navigation }) {
                         setValue={setValueE}
                         style={styles.dropState}
                         dropDownContainerStyle={{
-                            width: '27.5%', alignSelf: 'center'
+                            width: '51.5%', marginLeft: 104
                         }}
                     ></DropDownPicker>
                 </View>}

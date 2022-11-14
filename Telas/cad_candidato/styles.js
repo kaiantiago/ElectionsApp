@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     dropState: {
-        width: 80,
+        width: 148,
         marginLeft: 104
     },
     dropState2: {
