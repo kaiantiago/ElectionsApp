@@ -13,7 +13,7 @@ export function adicionaCandidato(candidato){
 }
 
 export function alteraCandidato(candidato){
-    return alteraDados(JSON.stringify(candidato), `candidato/atualizar/${candidato.id}`)
+    return alteraDados(JSON.stringify(candidato), `candidato/atualizar/${candidato._id}`)
 }
 
 export function excluiTodosCandidatos(){

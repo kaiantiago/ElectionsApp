@@ -13,7 +13,7 @@ export function adicionaPartido(partido){
 }
 
 export function alteraPartido(partido){
-    return alteraDados(JSON.stringify(partido), `partido/atualizar/${partido.id}`)
+    return alteraDados(JSON.stringify(partido), `partido/atualizar/${partido._id}`)
 }
 
 export function excluiTodosPartidos(){

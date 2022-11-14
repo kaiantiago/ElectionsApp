@@ -1,5 +1,5 @@
 
-var urlBack = "http://192.168.0.24:3000/"
+var urlBack = "http://192.168.0.20:3000/"
 
 export function getDados(urlGet){
         
@@ -43,7 +43,7 @@ export function deletaDados(urlDelete){
 export function alteraDados(objJson, urlPost){
         
     const options = {
-    method: 'PATCH',
+    method: 'PUT',
     headers: {
     'Content-Type': 'application/json',
     },

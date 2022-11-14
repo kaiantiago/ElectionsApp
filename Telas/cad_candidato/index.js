@@ -1,15 +1,19 @@
 import styles from './styles';
 import {
     Alert, Text, TextInput, TouchableOpacity,
-    View, Keyboard, ScrollView, Image
+    View, Keyboard, ScrollView, Image, Pressable, Modal
 } from 'react-native';
 import { useState, useEffect, useCallback } from 'react';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { obtemPartidos } from '../../services/api_partido';
 import { adicionaCandidato, alteraCandidato, excluiCandidato, obtemCandidatos } from '../../services/api_candidato';
 import CardCandidato from '../../componentes/card_candidato';
-
+import ImagemSelect from '../imagem_select';
 export default function Cad_Candidato({ navigation }) {
+
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const [idImg, setIdImg] = useState(0);
 
     const [id, setId] = useState(undefined);
     const [descricao, setDescricao] = useState("");
@@ -53,9 +57,9 @@ export default function Cad_Candidato({ navigation }) {
         { label: 'TO', value: 'TO' }
     ]);
     const [cargos, setCargos] = useState([
-        { label: 'Governador', value: 'Governador' },
-        { label: 'Senanador', value: 'Senanador' },
-        { label: 'Presidente', value: 'Presidente' },
+        { label: 'Governador', value: 'GOVERNADOR' },
+        { label: 'Senanador', value: 'SENANADOR' },
+        { label: 'Presidente', value: 'PRESIDENTE' },
     ]);
 
     DropDownPicker.addTranslation("PT", {
@@ -131,7 +135,7 @@ export default function Cad_Candidato({ navigation }) {
             partidoCandidato: valueP,
             cargo: valueC,
             estado: valueE,
-            imgId: ''
+            imgId: idImg.toString()
         };
 
 
@@ -150,6 +154,7 @@ export default function Cad_Candidato({ navigation }) {
                     Alert.alert('Falhou, sorry!');
             }
             else {
+                obj._id = id;
                 let resposta = await alteraCandidato(obj);
                 if (resposta)
                     Alert.alert('Alterado com sucesso!');
@@ -170,6 +175,7 @@ export default function Cad_Candidato({ navigation }) {
         setIdCat("");
         setPrecoUn("");
         setId(undefined);
+        setIdImg(0);
 
         setValueP(null);
         setOpenP(false);
@@ -188,9 +194,10 @@ export default function Cad_Candidato({ navigation }) {
             setDescricao(cand.nome);
             setPrecoUn(cand.numero.toString());
             setIdCat(cand.partidoCandidato);
-            setValueP(cand.partidoCandidato);
+            setValueP(cand.partidoCandidato._id);
             setValueE(cand.estado);
             setValueC(cand.cargo);
+            setIdImg(cand.imgId);
         }
 
         console.log(cand);
@@ -223,6 +230,11 @@ export default function Cad_Candidato({ navigation }) {
         }
     }
 
+    function selecionaImg(numImg){
+        setIdImg(numImg);
+        setModalVisible(!modalVisible);
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.areaBtnVoltar}>
@@ -233,6 +245,29 @@ export default function Cad_Candidato({ navigation }) {
                 </TouchableOpacity>
                 <Text style={styles.titulo}>Cadastro de Candidato</Text>
             </View>
+            
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                Alert.alert("Modal has been closed.");
+                setModalVisible(!modalVisible);
+                }}
+            >
+
+                <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                    <Pressable
+                        style={[styles.button, styles.buttonClose]}
+                        onPress={() => setModalVisible(!modalVisible)}
+                        >
+                        <Text>Cancelar</Text>
+                    </Pressable>
+                    <ImagemSelect onImgSelect={selecionaImg}></ImagemSelect>
+                </View>
+                </View>
+            </Modal>
 
             <View style={styles.areaDados}>
                 <View style={styles.areaDescricao}>
@@ -277,7 +312,7 @@ export default function Cad_Candidato({ navigation }) {
                     }}
                 ></DropDownPicker>
             </View>
-            {valueC == "Presidente" ?
+            {valueC == "PRESIDENTE" ?
                 <View></View> :
                 <View style={styles.areaDescricao2}>
                     <Text style={styles.lblDropdown}>Selecione o estado</Text>
@@ -312,9 +347,10 @@ export default function Cad_Candidato({ navigation }) {
                 <TouchableOpacity style={styles.button} onPress={() => salvaDados()}>
                     <Text style={styles.textButton}>Cadastrar</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ImagemSelect')}>
+                <TouchableOpacity style={styles.button} onPress={() => setModalVisible(true)}>
                     <Text style={styles.textButton}>Selecionar Imagem</Text>
                 </TouchableOpacity>
+                {idImg==0?<Text></Text> : <Text style={{alignSelf:'center'}}>✔</Text>}
             </View>
             <Text></Text>
             <ScrollView>

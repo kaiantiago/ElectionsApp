@@ -1,21 +1,34 @@
-import { react } from 'react';
+import { useState } from 'react';
 import { Text, View, TouchableOpacity, Image, ScrollView, Alert } from 'react-native';
 import styles from './styles';
 
-export default function ImagemSelect({ navigation}) {
+export default function ImagemSelect({ navigation, onImgSelect}) {
+
+    const [imgs, setImgs] = useState([11, 12, 13, 16, 17, 23, 26, 32, 35, 36, 51, 57, 59, 63, 68]);
+
     return (
         <View style={styles.container}>
             <View style={styles.areaBtnVoltar}>
-                <TouchableOpacity style={styles.btnVoltar} onPress={
-                    () => navigation.navigate('Cad_Candidato')
-                }>
-                    <Text style={styles.textBtnVoltar}> Voltar </Text>
-                </TouchableOpacity>
-                <Text style={styles.titulo}>Selecionar Imagem</Text>
+                <Text style={styles.titulo}>Toque em uma imagem para selecionar</Text>
             </View>
             <View>
                 <ScrollView>
-                    <TouchableOpacity onPress={() => {
+                    {imgs.map((img, index) => (
+                        <TouchableOpacity key={index.toString()}  
+                        onPress={() => {
+                            onImgSelect(img)
+                        }}><Image
+                            style={styles.areaLogo}
+                            source={{ uri: `https://i.pravatar.cc/400?img=${img}` }}
+                        /></TouchableOpacity>
+                    ))}
+                </ScrollView>
+            </View>
+        </View>
+    )
+}
+
+/* <TouchableOpacity onPress={() => {
                         goBack()
                     }}><Image
                         style={styles.areaLogo}
@@ -104,9 +117,4 @@ export default function ImagemSelect({ navigation}) {
                     }}><Image
                         style={styles.areaLogo}
                         source={{ uri: 'https://i.pravatar.cc/400?img=11' }}
-                    /></TouchableOpacity>
-                </ScrollView>
-            </View>
-        </View>
-    )
-}
+                    /></TouchableOpacity> */
