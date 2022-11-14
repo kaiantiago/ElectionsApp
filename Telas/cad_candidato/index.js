@@ -11,8 +11,6 @@ import CardCandidato from '../../componentes/card_candidato';
 
 export default function Cad_Candidato({ navigation }) {
 
-
-
     const [id, setId] = useState(undefined);
     const [descricao, setDescricao] = useState("");
     const [precoUn, setPrecoUn] = useState("");
@@ -82,7 +80,7 @@ export default function Cad_Candidato({ navigation }) {
         setOpenC(false);
         setOpenE(false);
     }, []);
-    
+
     async function processamentoUseEffect() {
         await carregaDados();
     }
@@ -98,26 +96,26 @@ export default function Cad_Candidato({ navigation }) {
     function carregaDados() {
         try {
             obtemCandidatos().then((response) => response.json())
-            .then((resposta) => {
-                let cds = resposta.candidatos;
-                console.log(resposta);
-                setCandidatos(cds);
-            }).catch((err )=> {
-                console.log("Promise Rejected:"+err);
-           });
-            obtemPartidos().then((response) => response.json())
-            .then((resposta) => {
-                let partds = [];
-                let ptds = resposta.partidos;
-                console.log(ptds);
-                ptds.forEach(element => {
-                    partds.push({ label: element.nome, value: element._id })
+                .then((resposta) => {
+                    let cds = resposta.candidatos;
+                    console.log(resposta);
+                    setCandidatos(cds);
+                }).catch((err) => {
+                    console.log("Promise Rejected:" + err);
                 });
-                console.log(partds);
-                setPartidos(partds);
-            }).catch((err )=> {
-                console.log("Promise Rejected:"+err);
-           });
+            obtemPartidos().then((response) => response.json())
+                .then((resposta) => {
+                    let partds = [];
+                    let ptds = resposta.partidos;
+                    console.log(ptds);
+                    ptds.forEach(element => {
+                        partds.push({ label: element.nome, value: element._id })
+                    });
+                    console.log(partds);
+                    setPartidos(partds);
+                }).catch((err) => {
+                    console.log("Promise Rejected:" + err);
+                });
         } catch (e) {
             console.log(e.toString());
             Alert.alert(e.toString());
@@ -136,8 +134,8 @@ export default function Cad_Candidato({ navigation }) {
             imgId: ''
         };
 
-        
-        if(descricao==""||precoUn==""){
+
+        if (descricao == "" || precoUn == "") {
             Alert.alert("Preecha os campos");
             return;
         }
@@ -239,7 +237,7 @@ export default function Cad_Candidato({ navigation }) {
             <View style={styles.areaDados}>
                 <View style={styles.areaDescricao}>
                     <Text style={styles.nome}>Nome</Text>
-                    <TextInput style={styles.caixaTexto} 
+                    <TextInput style={styles.caixaTexto}
                         onChangeText={(texto) => setDescricao(texto)}
                         value={descricao} />
                 </View>
@@ -279,40 +277,45 @@ export default function Cad_Candidato({ navigation }) {
                     }}
                 ></DropDownPicker>
             </View>
-            {valueC=="Presidente"?
-            <View></View>:
-            <View style={styles.areaDescricao2}>
-                <Text style={styles.lblDropdown}>Selecione o estado</Text>
-                <DropDownPicker
-                    zIndex={1000}
-                    open={openE}
-                    setOpen={setOpenE}
-                    onOpen={onE}
-                    items={estados}
-                    setEstados={setEstados}
-                    value={valueE}
-                    setValue={setValueE}
-                    style={styles.dropState}
-                    dropDownContainerStyle={{
-                        width: '27.5%', alignSelf: 'center'
-                    }}
-                ></DropDownPicker>
-            </View>}
-            
+            {valueC == "Presidente" ?
+                <View></View> :
+                <View style={styles.areaDescricao2}>
+                    <Text style={styles.lblDropdown}>Selecione o estado</Text>
+                    <DropDownPicker
+                        zIndex={1000}
+                        open={openE}
+                        setOpen={setOpenE}
+                        onOpen={onE}
+                        items={estados}
+                        setEstados={setEstados}
+                        value={valueE}
+                        setValue={setValueE}
+                        style={styles.dropState}
+                        dropDownContainerStyle={{
+                            width: '27.5%', alignSelf: 'center'
+                        }}
+                    ></DropDownPicker>
+                </View>}
+
 
             <View style={styles.areaDados}>
                 <View style={styles.areaDescricao2}>
                     <Text style={styles.nome}>Número do Candidato</Text>
-                    <TextInput style={styles.caixaTexto2} 
-                    onChangeText={(texto) => setPrecoUn(texto)}
-                    value={precoUn}
-                    keyboardType="numeric" />
+                    <TextInput style={styles.caixaTexto2}
+                        onChangeText={(texto) => setPrecoUn(texto)}
+                        value={precoUn}
+                        keyboardType="numeric" />
                 </View>
             </View>
-            
-            <TouchableOpacity style={styles.button} onPress={() => salvaDados()}>
-                <Text style={styles.textButton}>Cadastrar</Text>
-            </TouchableOpacity>
+
+            <View style={styles.areaDescricao2}>
+                <TouchableOpacity style={styles.button} onPress={() => salvaDados()}>
+                    <Text style={styles.textButton}>Cadastrar</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ImagemSelect')}>
+                    <Text style={styles.textButton}>Selecionar Imagem</Text>
+                </TouchableOpacity>
+            </View>
             <Text></Text>
             <ScrollView>
                 {

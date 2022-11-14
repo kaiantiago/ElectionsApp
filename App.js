@@ -6,6 +6,7 @@ import Cad_Partido from './Telas/cad_partido/index';
 import Configurar from './Telas/configurar/index';
 import Resultados from './Telas/resultados_eleicao/index';
 import Votacao from './Telas/votacao/index';
+import ImagemSelect from './Telas/imagem_select';
 
 const Routes = createAppContainer(
   createSwitchNavigator({
@@ -14,7 +15,8 @@ const Routes = createAppContainer(
     Cad_Partido,
     Configurar,
     Resultados,
-    Votacao
+    Votacao,
+    ImagemSelect
   })
 );
 
