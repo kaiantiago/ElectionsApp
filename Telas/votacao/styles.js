@@ -26,6 +26,16 @@ const styles = StyleSheet.create({
         marginLeft: 90,
         marginTop: 60
     },
+    button2: {
+        height: 60,
+        borderRadius: 22,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#ff9500',
+        marginLeft: 20,
+        width: '26%',
+        marginTop: 60
+    },
     textButton: {
         fontSize: 18,
         color: '#ffffff',
@@ -83,7 +93,13 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         marginEnd: 100
     },
-    
+    btnsVoto:{
+        flexDirection: 'row',
+    },
+    img:{
+        width:'100%',
+        height: 70
+    }
 })
 
 export default styles;

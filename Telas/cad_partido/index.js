@@ -11,8 +11,8 @@ export default function Cad_Partido({ navigation }) {
 
   const [id, setId] = useState();
   const [partidos, setPartidos] = useState([]);
-  const [descricao, setDescricao] = useState();
-  const [detalhes, setDetalhes] = useState();
+  const [descricao, setDescricao] = useState("");
+  const [detalhes, setDetalhes] = useState("");
 
   async function processamentoUseEffect() {
       await carregaDados();
@@ -43,7 +43,12 @@ export default function Cad_Partido({ navigation }) {
 
   async function salvaDados() {
     try {
-
+     
+      if(descricao==""||detalhes==""){
+          Alert.alert("Preecha os campos");
+          return;
+      }
+     
       let obj = {
         nome: descricao,
         descricao: detalhes

@@ -129,6 +129,11 @@ export default function Cad_Candidato({ navigation }) {
     async function salvaDados() {
         let novoRegistro = id == undefined;
 
+        if(descricao==""||precoUn==""||valueP==null||valueC==null||idImg==0){
+            Alert.alert("Preecha os campos");
+            return;
+        }
+
         let obj = {
             nome: descricao,
             numero: precoUn,

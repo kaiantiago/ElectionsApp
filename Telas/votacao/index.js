@@ -20,6 +20,8 @@ export default function Votacao({ navigation }) {
         NOTHING_TO_SHOW: "Hmm, parece que não há itens"
     });
 
+    const [ondeVoto, setOndeVoto] = useState(0);
+
     DropDownPicker.setLanguage("PT");
     const dfImage = "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png";
     const [sound, setSound] = useState();
@@ -39,7 +41,7 @@ export default function Votacao({ navigation }) {
     const [candidatos, setCandidatos] = useState();
     const [votos, setVotos] = useState();
     const [openE, setOpenE] = useState(false);
-    const [valueE, setValueE] = useState(null);
+    const [valueE, setValueE] = useState("");
     const [estados, setEstados] = useState([
         { label: 'AC', value: 'AC' },
         { label: 'AL', value: 'AL' },
@@ -161,10 +163,20 @@ export default function Votacao({ navigation }) {
         setGov(null);
         setSen(null);
         setPres(null);
+        setValueE("");
         setEstado("");
         setTituloEleitor("");
         setTempTitulo("");
         Keyboard.dismiss();
+    }
+
+    function corrige(){
+        setPresNum(0);
+        setSenNum(0);
+        setGovNum(0);
+        setGov(null);
+        setSen(null);
+        setPres(null);
     }
 
     return (
@@ -276,11 +288,22 @@ export default function Votacao({ navigation }) {
                                             <Text>Partido: {pres.partidoCandidato.nome}</Text>
                                         </View>}
                                 </View>
+
+                                
                                 
                             </View>
-                            <TouchableOpacity style={styles.button} onPress={() => salvaDados()}>
-                                <Text style={styles.textButton}>Confirma</Text>
-                            </TouchableOpacity>
+
+                            <View style={styles.btnsVoto}>
+                                <TouchableOpacity style={[styles.button2, {marginTop: 61}]} onPress={() => corrige()}>
+                                    <Image style={styles.img} source={require('../../Img/Corrige.png')}></Image>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.button2} onPress={() => salvaDados()}>
+                                    <Image style={styles.img} source={require('../../Img/Branco.png')}></Image>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.button2} onPress={() => salvaDados()}>
+                                    <Image style={styles.img} source={require('../../Img/Confirma.png')}></Image>
+                                </TouchableOpacity>
+                            </View>
                             <Text></Text>
                         </View></ScrollView>}
             </View>
@@ -313,6 +336,11 @@ export default function Votacao({ navigation }) {
         var vts = votos;
         if (vts.some(v => v.tituloEleitor == tempTitulo)) {
             Alert.alert("Já votou");
+            return;
+        }
+
+        if(tempTitulo==""||valueE==""){
+            Alert.alert("Preecha os campos");
             return;
         }
 
